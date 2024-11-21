@@ -1,47 +1,104 @@
+// Inspired by the interface design "Art Study Mobile IOS App" by Olga Vorontsova
+// Link: https://dribbble.com/shots/21797382-Art-Study-Mobile-IOS-App
+
+// Importing the necessary SwiftUI framework
 import SwiftUI
 
 struct ContentView: View {
-    // @StateObject var contentViewModel = ContentViewModel()
-    
+    @StateObject private var viewModel = ContentViewModel()
+  
     var body: some View {
-        NavigationView {
-            List(/* contentViewModel.pokemonList */[PokemonBase]()) { pokemonBase in
-                NavigationLink {
-//                    PokemonDetailView(pokemonBase: pokemonBase)
-                } label: {
-                    HStack {
-//                        WebImage(url: URL(string: pokemonBase.perfil?.sprites.front_default ?? ""))
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 48, height: 48, alignment: .center)
-                        Text(pokemonBase.pokemon.name)
+        ZStack {
+            // Background Color
+            LinearGradient(gradient: Gradient(colors: [Color(hex: "0B2A22"), Color(hex: "154734"), Color(hex: "333333")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                            .edgesIgnoringSafeArea(.all)
+
+            VStack(alignment: .leading) {
+                // Title Section
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Learn The World")
+                        .font(.custom("Times New Roman", size: 36))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(hex: "FFFFFF"))
+                    Text("Before You")
+                        .font(.custom("Times New Roman", size: 36))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(hex: "FFC329"))
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 60)
+
+                Spacer().frame(height: 40)
+
+                // List of Categories
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        ForEach(artTopics, id: \ .self) { topic in
+                            ArtTopicView(topic: topic)
+                        }
                     }
                 }
-            }
+                .padding(.horizontal, 24)
+
+                Spacer()
+
+                
         }
-        /*
-        .onAppear {
-            Task {
-                await contentViewModel.getPokemonList()
-            }
-        }
-        */
     }
+}
+
+// Art Topic View
+struct ArtTopicView: View {
+    let topic: ArtTopic
     
-    /*
-    func getPokemonList() async {
-        let pokemonRepository = PokemonRepository()
-        let result = await pokemonRepository.getPokemonList(limit: 1279)
-        
-        var tempPokemonList = [PokemonBase]()
-        for pokemon in result!.results {
-            let numberPokemon = Int(pokemon.url.split(separator: "/")[5])!
-            
-            let infoPokemon = await pokemonRepository.getPokemonInfo(numberPokemon: Int(String(numberPokemon))!)
-            let tempPokemon = PokemonBase(id: Int(String(numberPokemon))!, pokemon: pokemon, perfil: infoPokemon)
-            tempPokemonList.append(tempPokemon)
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text(topic.title)
+                    .font(.headline)
+                    .foregroundColor(Color(hex: "FFFFFF"))
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .foregroundColor(Color(hex: "FFC329"))
+            }
+            .padding(.vertical, 8)
+            Text(topic.description)
+                .font(.subheadline)
+                .foregroundColor(Color(hex: "FFFFFF"))
         }
-        contentViewModel.pokemonList = tempPokemonList
+        .padding()
+        .background(Color(hex: "0B2A22").opacity(0.6))
+        .cornerRadius(10)
     }
-    */
+}
+
+
+}
+
+// Art Topic Model
+struct ArtTopic: Hashable {
+    let title: String
+    let description: String
+}
+
+// Sample Data for Topics
+let artTopics = [
+    ArtTopic(title: "World Masterpieces", description: "Learn about the world's greatest artists and the stories behind their paintings"),
+    ArtTopic(title: "Expressionism", description: "Get a taste of one of the exciting styles of the 20th century and its artists"),
+    ArtTopic(title: "Painting in Cinema", description: "Consider the participation of the greatest pictures in the greatest cinema"),
+    ArtTopic(title: "20th Century Art", description: "Let's learn about the creators of the previous century and analyze their styles")
+]
+
+// Extension for Hex Color
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.currentIndex = hex.startIndex
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+        let r = Double((rgbValue & 0xff0000) >> 16) / 255
+        let g = Double((rgbValue & 0xff00) >> 8) / 255
+        let b = Double(rgbValue & 0xff) / 255
+        self.init(red: r, green: g, blue: b)
+    }
 }
