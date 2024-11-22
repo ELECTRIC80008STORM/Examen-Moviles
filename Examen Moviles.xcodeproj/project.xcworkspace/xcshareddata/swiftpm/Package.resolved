@@ -1,5 +1,5 @@
 {
-  "originHash" : "24fefcf30ff24fbd85a334b9466db827226e7ec1cd4b12de783ff9ea19eb8eac",
+  "originHash" : "9a3317ceef40b36091aca71d602ed5cd92ea6f1c69b8ba56ae4ecd2db7df6cc0",
   "pins" : [
     {
       "identity" : "bolts-objc",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "d8c07eee2045a13f34330c0a4664053b5176e3f0",
         "version" : "1.5.0"
-      }
-    },
-    {
-      "identity" : "flowstacks",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/johnpatrickmorgan/FlowStacks",
-      "state" : {
-        "revision" : "0c2d1dcabcaf1a6b725f4a9d01796308d9b03db1",
-        "version" : "0.8.3"
       }
     },
     {
