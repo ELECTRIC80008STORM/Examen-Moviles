@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2FD9631F2CEF8FC3002C4570 /* ParseLiveQuery in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD9631E2CEF8FC3002C4570 /* ParseLiveQuery */; };
 		2FD963212CEF8FC3002C4570 /* ParseObjC in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD963202CEF8FC3002C4570 /* ParseObjC */; };
+		2FD963902CEFCFBC002C4570 /* FlowStacks in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD9638F2CEFCFBC002C4570 /* FlowStacks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			files = (
 				2FD963212CEF8FC3002C4570 /* ParseObjC in Frameworks */,
 				2FD9631F2CEF8FC3002C4570 /* ParseLiveQuery in Frameworks */,
+				2FD963902CEFCFBC002C4570 /* FlowStacks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +123,7 @@
 			packageProductDependencies = (
 				2FD9631E2CEF8FC3002C4570 /* ParseLiveQuery */,
 				2FD963202CEF8FC3002C4570 /* ParseObjC */,
+				2FD9638F2CEFCFBC002C4570 /* FlowStacks */,
 			);
 			productName = "Examen Moviles";
 			productReference = 2F42591D2CEF8710007D3CC0 /* Examen Moviles.app */;
@@ -206,6 +209,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */,
+				2FD9638E2CEFCFBC002C4570 /* XCRemoteSwiftPackageReference "FlowStacks" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F42591E2CEF8710007D3CC0 /* Products */;
@@ -580,6 +584,14 @@
 				minimumVersion = 4.1.2;
 			};
 		};
+		2FD9638E2CEFCFBC002C4570 /* XCRemoteSwiftPackageReference "FlowStacks" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnpatrickmorgan/FlowStacks";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -592,6 +604,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */;
 			productName = ParseObjC;
+		};
+		2FD9638F2CEFCFBC002C4570 /* FlowStacks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FD9638E2CEFCFBC002C4570 /* XCRemoteSwiftPackageReference "FlowStacks" */;
+			productName = FlowStacks;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
