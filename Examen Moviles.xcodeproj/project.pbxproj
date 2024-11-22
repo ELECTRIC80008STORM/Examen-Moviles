@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2FD9631F2CEF8FC3002C4570 /* ParseLiveQuery in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD9631E2CEF8FC3002C4570 /* ParseLiveQuery */; };
+		2FD963212CEF8FC3002C4570 /* ParseObjC in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD963202CEF8FC3002C4570 /* ParseObjC */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2F42592E2CEF8714007D3CC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FD963212CEF8FC3002C4570 /* ParseObjC in Frameworks */,
+				2FD9631F2CEF8FC3002C4570 /* ParseLiveQuery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = "Examen Moviles";
 			packageProductDependencies = (
+				2FD9631E2CEF8FC3002C4570 /* ParseLiveQuery */,
+				2FD963202CEF8FC3002C4570 /* ParseObjC */,
 			);
 			productName = "Examen Moviles";
 			productReference = 2F42591D2CEF8710007D3CC0 /* Examen Moviles.app */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = 2F4259142CEF8710007D3CC0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F42591E2CEF8710007D3CC0 /* Products */;
 			projectDirPath = "";
@@ -558,6 +570,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/parse-community/Parse-SDK-iOS-OSX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2FD9631E2CEF8FC3002C4570 /* ParseLiveQuery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */;
+			productName = ParseLiveQuery;
+		};
+		2FD963202CEF8FC3002C4570 /* ParseObjC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FD9631D2CEF8FC3002C4570 /* XCRemoteSwiftPackageReference "Parse-SDK-iOS-OSX" */;
+			productName = ParseObjC;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2F4259152CEF8710007D3CC0 /* Project object */;
 }
