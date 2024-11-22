@@ -34,21 +34,38 @@ class ParseService {
         do {
             // Call the cloud function named "hello" with no parameters.
             let response: Any = try await callCloudFunction(functionName: "hello", params: params)
-
-            // Attempt to serialize the response into JSON data.
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: response) else {
-                // Throw an error if serialization fails.
-                throw NSError(domain: "ParseError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to serialize response"])
+            
+            // Attempt to convert response to array of PFObjects if possible
+            guard let responseDict = response as? [String: Any],
+                  let dataArray = responseDict["data"] as? [PFObject] else {
+                throw NSError(domain: "ParseError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unexpected response format"])
             }
             
-            // Attempt to decode the JSON data into `HistoricalResponse`.
-            let decodedResponse = try JSONDecoder().decode(HistoricalResponse.self, from: jsonData)
-            let historicDataList = HistoricDataList(data: decodedResponse.result.data)
-            return historicDataList
-        } catch let error {
-            print("Error when trying to connect to the server or handling the data: \(error.localizedDescription)")
+            // Manually deserialize PFObjects to create HistoricalData objects
+                let historicalDataArray: [HistoricalData] = dataArray.compactMap { pfObject in
+                    HistoricalData(
+                        date: pfObject["date"] as? String ?? "",
+                        description: pfObject["description"] as? String ?? "",
+                        lang: pfObject["lang"] as? String ?? "",
+                        category1: pfObject["category1"] as? String ?? "",
+                        category2: pfObject["category2"] as? String ?? "",
+                        granularity: pfObject["granularity"] as? String ?? "",
+                        createdAt: pfObject["createdAt"] as? String ?? "",
+                        updatedAt: pfObject["updatedAt"] as? String ?? "",
+                        objectId: pfObject["objectId"] as? String ?? "",
+                        type: pfObject["__type"] as? String ?? "",
+                        className: pfObject["className"] as? String ?? ""
+                    )
+                }
+            
+            // Create HistoricDataList from the array of HistoricalData objects
+            return HistoricDataList(data: historicalDataArray)
+        } catch {
             throw error
         }
     }
+
+
+
 
 }

@@ -6,12 +6,12 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
-  
+
     var body: some View {
         ZStack {
             // Background Color
             LinearGradient(gradient: Gradient(colors: [Color(hex: "0B2A22"), Color(hex: "154734"), Color(hex: "333333")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.all)
 
             VStack(alignment: .leading) {
                 // Title Section
@@ -30,19 +30,35 @@ struct ContentView: View {
 
                 Spacer().frame(height: 40)
 
-                // List of Categories
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        ForEach(artTopics, id: \ .self) { topic in
-                            ArtTopicView(topic: topic)
+                // Loading Indicator
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .padding()
+                        .foregroundColor(.white)
+                }
+                // Error Message
+                else if let errorMessage = viewModel.errorMessage {
+                    Text("Error: \(errorMessage)")
+                        .foregroundColor(.red)
+                        .padding()
+                }
+                // List of Historical Data
+                else if let historicDataList = viewModel.historicData?.data {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            ForEach(historicDataList) { data in
+                                HistoricalDataView(data: data)
+                            }
                         }
                     }
+                    .padding(.horizontal, 24)
                 }
-                .padding(.horizontal, 24)
 
                 Spacer()
-
-                
+            }
+        }
+        .task {
+            await viewModel.getHistoricData()
         }
     }
 }
@@ -70,9 +86,6 @@ struct ArtTopicView: View {
         .background(Color(hex: "0B2A22").opacity(0.6))
         .cornerRadius(10)
     }
-}
-
-
 }
 
 // Art Topic Model
