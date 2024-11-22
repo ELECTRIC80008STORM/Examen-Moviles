@@ -4,10 +4,12 @@
 import SwiftUI
 
 /// `ContentView` is the main view that displays the historical data fetched by `ContentViewModel`.
-/// It includes a title section, a loading indicator, and a list of historical data.
+/// It includes a title section, a loading indicator, filter options, and a list of historical data.
 struct ContentView: View {
     /// The view model that manages the state and data-fetching logic.
     @StateObject private var viewModel = ContentViewModel()
+    
+    @State private var selectedCategory = "By place"
 
     var body: some View {
         NavigationStack {
@@ -32,6 +34,22 @@ struct ContentView: View {
 
                     Spacer().frame(height: 40)
 
+                    // Filter section
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Picker for selecting category
+                        Picker("Filter by", selection: $selectedCategory) {
+                            Text("By place").tag("By place")
+                            Text("By topic").tag("By topic")
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding(.horizontal, 24)
+                        .onChange(of: selectedCategory) {
+                            _ in viewModel.filterData(category: selectedCategory)
+                        }
+                    }
+
+                    Spacer().frame(height: 20)
+
                     // Loading indicator displayed while data is being fetched.
                     if viewModel.isLoading {
                         ProgressView("Loading...")
@@ -39,8 +57,8 @@ struct ContentView: View {
                             .foregroundColor(.white)
                     }
                     // List of historical data once the data has been fetched.
-                    else if let historicDataList = viewModel.historicData?.data {
-                        List(historicDataList) { data in
+                    else if let filteredDataList = viewModel.filteredData?.data, !filteredDataList.isEmpty {
+                        List(filteredDataList) { data in
                             NavigationLink(destination: HistoricalDataContentView(data: data)) {
                                 HistoricalDataView(data: data)
                             }
@@ -48,6 +66,10 @@ struct ContentView: View {
                         }
                         .listStyle(PlainListStyle())
                         .padding(.horizontal, 24)
+                    } else {
+                        Text("No data available for the selected filter.")
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 24)
                     }
 
                     Spacer()
@@ -58,6 +80,8 @@ struct ContentView: View {
             // Initiates the data fetching when the view appears.
             .task {
                 await viewModel.getHistoricData()
+                // Trigger filtering after data is fetched
+                viewModel.filterData(category: selectedCategory)
             }
         }
     }
