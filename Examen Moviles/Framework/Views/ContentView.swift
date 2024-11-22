@@ -36,12 +36,6 @@ struct ContentView: View {
                         .padding()
                         .foregroundColor(.white)
                 }
-                // Error Message
-                else if let errorMessage = viewModel.errorMessage {
-                    Text("Error: \(errorMessage)")
-                        .foregroundColor(.red)
-                        .padding()
-                }
                 // List of Historical Data
                 else if let historicDataList = viewModel.historicData?.data {
                     ScrollView {
@@ -57,50 +51,12 @@ struct ContentView: View {
                 Spacer()
             }
         }
+        .toast()
         .task {
             await viewModel.getHistoricData()
         }
     }
 }
-
-// Art Topic View
-struct ArtTopicView: View {
-    let topic: ArtTopic
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(topic.title)
-                    .font(.headline)
-                    .foregroundColor(Color(hex: "FFFFFF"))
-                Spacer()
-                Image(systemName: "arrow.up.right")
-                    .foregroundColor(Color(hex: "FFC329"))
-            }
-            .padding(.vertical, 8)
-            Text(topic.description)
-                .font(.subheadline)
-                .foregroundColor(Color(hex: "FFFFFF"))
-        }
-        .padding()
-        .background(Color(hex: "0B2A22").opacity(0.6))
-        .cornerRadius(10)
-    }
-}
-
-// Art Topic Model
-struct ArtTopic: Hashable {
-    let title: String
-    let description: String
-}
-
-// Sample Data for Topics
-let artTopics = [
-    ArtTopic(title: "World Masterpieces", description: "Learn about the world's greatest artists and the stories behind their paintings"),
-    ArtTopic(title: "Expressionism", description: "Get a taste of one of the exciting styles of the 20th century and its artists"),
-    ArtTopic(title: "Painting in Cinema", description: "Consider the participation of the greatest pictures in the greatest cinema"),
-    ArtTopic(title: "20th Century Art", description: "Let's learn about the creators of the previous century and analyze their styles")
-]
 
 // Extension for Hex Color
 extension Color {
