@@ -1,16 +1,22 @@
+// Inspired by the interface design "Art Study Mobile IOS App" by Olga Vorontsova
+// Link: https://dribbble.com/shots/21797382-Art-Study-Mobile-IOS-App
+
 import SwiftUI
 
+/// `ContentView` is the main view that displays the historical data fetched by `ContentViewModel`.
+/// It includes a title section, a loading indicator, and a list of historical data.
 struct ContentView: View {
+    /// The view model that manages the state and data-fetching logic.
     @StateObject private var viewModel = ContentViewModel()
 
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background Color
+                // Background color view for the main content.
                 BackgroundView()
 
                 VStack(alignment: .leading) {
-                    // Title Section
+                    // Title section displaying the main heading of the app.
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Learn The World")
                             .font(.custom("Times New Roman", size: 36))
@@ -26,13 +32,13 @@ struct ContentView: View {
 
                     Spacer().frame(height: 40)
 
-                    // Loading Indicator
+                    // Loading indicator displayed while data is being fetched.
                     if viewModel.isLoading {
                         ProgressView("Loading...")
                             .padding()
                             .foregroundColor(.white)
                     }
-                    // List of Historical Data
+                    // List of historical data once the data has been fetched.
                     else if let historicDataList = viewModel.historicData?.data {
                         List(historicDataList) { data in
                             NavigationLink(destination: HistoricalDataContentView(data: data)) {
@@ -47,7 +53,9 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            // Adds a toast notification to the view.
             .toast()
+            // Initiates the data fetching when the view appears.
             .task {
                 await viewModel.getHistoricData()
             }
@@ -55,8 +63,10 @@ struct ContentView: View {
     }
 }
 
-// Extension for Hex Color
+/// Extension for creating colors using hex codes.
 extension Color {
+    /// Initializes a `Color` from a hexadecimal color code string.
+    /// - Parameter hex: A string representing the hexadecimal color code.
     init(hex: String) {
         let scanner = Scanner(string: hex)
         scanner.currentIndex = hex.startIndex
